@@ -47,7 +47,15 @@ set(N_QT ${DEFQT} CACHE STRING "Qt Version")
 set_property(CACHE N_QT PROPERTY STRINGS "N_QT4" "N_QT5")
 set(${N_QT} ON)
 
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/extlibs/scripts)
+
 find_package(PythonLibs 3.5 REQUIRED)
+
+cmake_policy(PUSH)
+# Ignore policy that disallows environment variables
+cmake_policy(SET CMP0074 NEW)
+find_package(MONO REQUIRED)
+cmake_policy(POP)
 
 # select physics implementation
 SET(N_BUILD_BULLET OFF)

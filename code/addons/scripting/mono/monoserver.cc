@@ -2,11 +2,12 @@
 //  monoserver.cc
 //  (C) 2019 Individual contributors, see AUTHORS file
 //------------------------------------------------------------------------------
-#define NOMINMAX
 #include "foundation/stdneb.h"
 #include "scripting/mono/monoserver.h"
 #include "io/ioserver.h"
 #include "io/textreader.h"
+#include "mono/metadata/mono-config.h"
+#include "mono/utils/mono-error.h"
 
 using namespace IO;
 
@@ -17,6 +18,13 @@ __ImplementSingleton(Scripting::MonoServer);
 
 using namespace Util;
 using namespace IO;
+
+#define __EXPORT extern "C" __declspec(dllexport)
+
+__EXPORT void Foobar()
+{
+	n_printf("Testing");
+}
 
 //------------------------------------------------------------------------------
 /**
@@ -32,12 +40,11 @@ MonoServer::MonoServer()
 MonoServer::~MonoServer()
 {
     if (this->IsOpen())
-    {
+    { 
         this->Close();
     }
     __DestructSingleton;
 }
-
 
 //------------------------------------------------------------------------------
 /**
@@ -54,12 +61,11 @@ MonoServer::Open()
 		{
 			n_error("Failed to initialize Mono JIT runtime!");
 		}
-
-		// setup executable
-
+		
 		IO::URI uri = IO::URI("scr:test.dll");
 		Util::String path = uri.AsString();
 
+		// setup executable
 		MonoAssembly *assembly;
 		assembly = mono_domain_assembly_open(domain, path.AsCharPtr());
 		if (!assembly)

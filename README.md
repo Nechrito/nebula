@@ -18,5 +18,10 @@
         3. Added to PATH
         4. Installed with debugging symbols and binaries
 
+### Mono
+To compile with mono you need the runtime installed.
+On Windows, you might need to add the `bin` folder of your mono installation to `PATH`.
+If CMake is having trouble finding Mono, try adding the root folder of your mono installation to an environment variable and call it `MONO_ROOT`.
+
 ## Setup
 Remember to run `fips nebula` verb to set work and toolkit directory registry variables.

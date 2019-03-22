@@ -8,6 +8,8 @@
 #include "io/textreader.h"
 #include "mono/metadata/mono-config.h"
 #include "mono/utils/mono-error.h"
+#include "mono/metadata/debug-helpers.h"
+#include "mono/metadata/mono-debug.h"
 
 using namespace IO;
 
@@ -21,9 +23,14 @@ using namespace IO;
 
 #define __EXPORT extern "C" __declspec(dllexport)
 
-__EXPORT void Foobar()
+__EXPORT void N_Print(char* str)
 {
-	n_printf("Testing");
+	n_printf(str);
+}
+
+__EXPORT void Foobar(Util::String const& str)
+{
+	n_printf("Testing %s\n", str.AsCharPtr());
 }
 
 //------------------------------------------------------------------------------
@@ -56,26 +63,39 @@ MonoServer::Open()
     if (ScriptServer::Open())
     {
 		// Intialize JIT runtime
+
+		mono_debug_init(MonoDebugFormat::MONO_DEBUG_FORMAT_MONO);
+		
 		this->domain = mono_jit_init("Nebula Scripting Subsystem");
 		if (!domain)
 		{
 			n_error("Failed to initialize Mono JIT runtime!");
 		}
 		
-		IO::URI uri = IO::URI("scr:test.dll");
+		IO::URI uri = IO::URI("bin:scripts.dll");
 		Util::String path = uri.AsString();
 
 		// setup executable
-		MonoAssembly *assembly;
+		MonoAssembly* assembly;
 		assembly = mono_domain_assembly_open(domain, path.AsCharPtr());
 		if (!assembly)
-			n_error("Error loading mono assembly!");
+			n_error("Mono initialization: Could not load Mono assembly!");
 
-		char* argc[1] = { "test.dll" };
 
-		int retval = mono_jit_exec(domain, assembly, 1, argc);
 
-		n_printf("mono returned %i\n", retval);
+		char* argc[1] = { "scripts.dll" };
+
+		MonoImage* image = mono_assembly_get_image(assembly);
+
+		MonoClass* cls = mono_class_from_name(image, "", "Nebula");
+
+		MonoMethodDesc* desc = mono_method_desc_new(":Main()", false);
+		MonoMethod* entryPoint = mono_method_desc_search_in_class(desc, cls);
+
+		if (!entryPoint)
+			n_error("Could not find entry point for Mono scripts!");
+
+		auto ret = mono_runtime_invoke(entryPoint, NULL, NULL, NULL);
 
         return true;
     }

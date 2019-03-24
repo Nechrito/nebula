@@ -32,8 +32,12 @@ public:
     bool Eval(const Util::String& str);	
     /// evaluate script in file
     bool EvalFile(const IO::URI& file);
+	/// enable debugging. this needs to be called before Open()
+	void SetDebuggingEnabled(bool enabled);
 private:
 	MonoDomain* domain;
+
+	bool waitForDebugger;
 };
 
 } // namespace Scripting

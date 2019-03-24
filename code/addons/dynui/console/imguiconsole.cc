@@ -14,7 +14,7 @@
 #include "io/ioserver.h"
 #include "app/application.h"
 #include "pybind11/embed.h"
-#include "scripting/bindings.h"
+#include "scripting/python/pybindings.h"
 
 namespace py = pybind11;
 

@@ -11,7 +11,7 @@
 #include "util/array.h"
 #include "game/entity.h"
 #include "pybind11/embed.h"
-#include "scripting/bindings.h"
+#include "pybindings.h"
 #include "pybind11/numpy.h"
 #include "basegamefeature/managers/componentmanager.h"
 #include "basegamefeature/components/transformcomponent.h"

@@ -5,12 +5,37 @@
 fips_begin_module(scripting)
 fips_libs(foundation application)
 
-fips_files(scriptserver.cc scriptserver.h bindings.h bindings.cc	
-)
+fips_files(
+    scriptconfig.h
+    scriptserver.cc
+    scriptserver.h
+    )
+fips_dir(api)
+    fips_files(
+        application.h
+        application.cc
+        audio.h
+        audio.cc
+        render.h
+        render.cc
+        game.h
+        game.cc
+    )
 fips_dir(python)
-    fips_files(pythonserver.cc pythonserver.h deargui.cpp)
+    fips_files(
+        pythonserver.cc
+        pythonserver.h
+        deargui.cpp
+        pybindings.h
+        pybindings.cc
+        )
 fips_dir(mono)
-    fips_files(monoserver.cc monoserver.h)
+    fips_files(
+        monoserver.cc
+        monoserver.h
+        monobindings.h
+        monobindings.cc
+        )
 fips_end_module()
 
 # message ( STATUS "" )

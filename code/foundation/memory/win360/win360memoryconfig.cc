@@ -42,6 +42,7 @@ SetupHeaps()
             case DefaultHeap:
             case ObjectHeap:
             case RocketHeap:
+            case ScriptingHeap:
                 initialSize = 4 * megaByte;
                 useLowFragHeap = true;
                 break;
@@ -68,13 +69,6 @@ SetupHeaps()
 
             case StreamDataHeap:
                 initialSize = 16 * megaByte;
-                break;
-
-            case Xbox360GraphicsHeap:
-            case Xbox360AudioHeap:
-                // the special Xbox360 write combined heap, this is handled as a 
-                // special case in Memory::Alloc()
-                initialSize = 0;
                 break;
 
             default:
@@ -148,8 +142,7 @@ GetHeapTypeName(HeapType heapType)
         case PhysicsHeap:               return "Physics Heap";
         case AppHeap:                   return "App Heap";
         case NetworkHeap:               return "Network Heap";
-        case Xbox360GraphicsHeap:       return "Xbox360 Graphics Heap";
-        case Xbox360AudioHeap:          return "Xbox360 Audio Heap";
+        case ScriptingHeap:				return "Scripting Heap";
         case RocketHeap:				return "Librocket Heap";
         default:
             Core::SysFunc::Error("Invalid HeapType arg in Memory::GetHeapTypeName()! (win360memoryconfig.cc)");

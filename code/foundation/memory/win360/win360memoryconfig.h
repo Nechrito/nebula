@@ -35,9 +35,7 @@ enum HeapType
     AppHeap,                    // for general Application layer stuff
     NetworkHeap,                // for network layer
     RocketHeap,                 // the librocket UI heap
-
-    Xbox360GraphicsHeap,        // defines special Xbox360 graphical memory
-    Xbox360AudioHeap,           // defines special Xbox360 audio memory
+	ScriptingHeap,				// for allocations made specifically for scripting or by scripts
     
     NumHeapTypes,
     InvalidHeapType,

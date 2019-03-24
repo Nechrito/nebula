@@ -36,6 +36,7 @@ enum HeapType
     AppHeap,                    // for general Application layer stuff
     NetworkHeap,                // for network layer
     RocketHeap,                 // the librocket UI heap
+	ScriptHeap,					// for allocations made specifically for scripting or by scripts
 
     NumHeapTypes,
     InvalidHeapType,

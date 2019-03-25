@@ -9,9 +9,32 @@
 */
 //------------------------------------------------------------------------------
 #include "scripting/scriptconfig.h"
+#include "mono/metadata/object.h"
 
 namespace Mono
 {
+
+
+class MonoBindings
+{
+public:
+	MonoBindings();
+	~MonoBindings();
+
+	void Initialize();
+
+private:
+	static void SetupInternalCalls();
+
+	static MonoObject* GetTransform(unsigned int entity);
+};
+
+//------------------------------------------------------------------------------
+/**
+	Sets up internal calls.
+	Call this once when initializing mono
+*/
+static void SetupInternalCalls();
 
 //------------------------------------------------------------------------------
 /**

@@ -24,6 +24,7 @@ __ImplementSingleton(Scripting::MonoServer);
 using namespace Util;
 using namespace IO;
 
+static Mono::MonoBindings bindings;
 
 //------------------------------------------------------------------------------
 /**
@@ -144,6 +145,8 @@ MonoServer::Open()
 		if (!assembly)
 			n_error("Mono initialization: Could not load Mono assembly!");
 
+		// mono_assembly_set_main(assembly);
+
 		char* argc[1] = { "scripts.dll" };
 
 		MonoImage* image = mono_assembly_get_image(assembly);
@@ -155,6 +158,9 @@ MonoServer::Open()
 
 		if (!entryPoint)
 			n_error("Could not find entry point for Mono scripts!");
+
+		bindings = Mono::MonoBindings();
+		bindings.Initialize();
 
 		mono_runtime_invoke(entryPoint, NULL, NULL, NULL);
 

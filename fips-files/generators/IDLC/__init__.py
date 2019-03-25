@@ -134,7 +134,7 @@ class IDLCodeGenerator:
         hasMessages = "messages" in self.document
 
         if hasMessages:            
-            IDLDocument.AddInclude(f, "scripting/bindings.h")
+            IDLDocument.AddInclude(f, "scripting/python/pybindings.h")
 
         if "attributes" in self.document:
             IDLDocument.BeginNamespaceOverride(f, self.document, "Attr")

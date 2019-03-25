@@ -36,18 +36,43 @@ fips_dir(mono)
         monobindings.h
         monobindings.cc
         )
+fips_dir(mono/conversion)
+    fips_files(
+        monoconfig.h
+        matrix44.h
+        matrix44.cc
+    )
 fips_end_module()
 
-# message ( STATUS "" )
-# message ( ---------------------------- )
-# message ( STATUS "" )
-# message ( STATUS "MONO_INCLUDE_DIRS = " ${MONO_INCLUDE_DIRS} )
-# message ( STATUS "MONO_LIBRARIES = " ${MONO_LIBRARIES} )
-# message ( STATUS "MONO_LIBRARY_DIRS = "${MONO_LIBRARY_DIRS} )
-# message ( STATUS "MONO_EXECUTABLE = "${MONO_EXECUTABLE} )
-# message ( STATUS "" )
-# message ( ---------------------------- )
-# message ( STATUS "" )
+fips_begin_sharedlib(xna_math)
+    enable_language(CSharp)
+    fips_dir(mono/xna)
+        fips_files(
+            BoundingBox.cs
+            BoundingFrustum.cs
+            BoundingSphere.cs
+            Color.cs
+            ContainmentType.cs
+            MathHelper.cs
+            Matrix.cs
+            Plane.cs
+            PlaneIntersectionType.cs
+            Point.cs
+            Quaternion.cs
+            Ray.cs
+            Rectangle.cs
+            Vector2.cs
+            Vector3.cs
+            Vector4.cs
+        )
+fips_end_sharedlib()
+    target_compile_options(xna_math
+        PRIVATE "/langversion:6"
+        )
+    set_target_properties(xna_math PROPERTIES 
+        VS_DOTNET_REFERENCES "System.Runtime.Serialization"
+        )
+    
 
 target_link_libraries(scripting ${PYTHON_LIBRARY_RELEASE} ${MONO_LIBRARIES})
 target_link_options(scripting PUBLIC "/WHOLEARCHIVE:scripting")

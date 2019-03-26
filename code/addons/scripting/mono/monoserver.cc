@@ -145,7 +145,7 @@ MonoServer::Open()
 		if (!assembly)
 			n_error("Mono initialization: Could not load Mono assembly!");
 
-		// mono_assembly_set_main(assembly);
+		mono_assembly_set_main(assembly);
 
 		char* argc[1] = { "scripts.dll" };
 

@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 #include "scripting/scriptconfig.h"
 #include "mono/metadata/object.h"
-
+#include "game/entity.h"
 namespace Mono
 {
 
@@ -27,14 +27,9 @@ private:
 	static void SetupInternalCalls();
 
 	static MonoObject* GetTransform(unsigned int entity);
+	static MonoBoolean* EntityIsValid(unsigned int entity);
+	static MonoObject* CreateEntity();
 };
-
-//------------------------------------------------------------------------------
-/**
-	Sets up internal calls.
-	Call this once when initializing mono
-*/
-static void SetupInternalCalls();
 
 //------------------------------------------------------------------------------
 /**

@@ -6,21 +6,22 @@
 #include "monobindings.h"
 #include "core/debug.h"
 #include "mono/metadata/loader.h"
-#include "conversion/matrix44.h"
 #include "mono/jit/jit.h"
 #include "mono/metadata/assembly.h"
 #include "mono/metadata/debug-helpers.h"
 
 #include "basegamefeature\components\transformcomponent.h"
 
+#include "conversion/matrix44.h"
+#include "conversion/vector4.h"
+#include "conversion/vector3.h"
+#include "conversion/vector2.h"
+#include "conversion/quaternion.h"
+#include "conversion/bbox.h"
+#include "conversion/entity.h"
 
 namespace Mono
 {
-// preloaded classes and methods used in internal calls
-static MonoClass* vector2Class;
-static MonoClass* vector3Class;
-static MonoClass* vector4Class;
-static MonoClass* quaternionClass;
 
 MonoBindings::MonoBindings()
 {
@@ -37,6 +38,12 @@ void
 MonoBindings::Initialize()
 {
 	MonoAssembly* assembly;
+	MonoImage* image;
+	// setup from main assembly
+	image = mono_assembly_get_image(mono_assembly_get_main());
+	Mono::Entity::Setup(image);
+
+	MonoBindings::SetupInternalCalls();
 
 	IO::URI uri = IO::URI("bin:xna_math.dll");
 	Util::String path = uri.AsString();
@@ -47,16 +54,14 @@ MonoBindings::Initialize()
 	
 	char* argc[1] = { "xna_math.dll" };
 
-	MonoImage* image = mono_assembly_get_image(assembly);
+	image = mono_assembly_get_image(assembly);
 
 	Mono::Matrix44::Setup(image);
-
-	vector2Class = mono_class_from_name(image, "Microsoft.Xna.Framework", "Vector2");
-	vector3Class = mono_class_from_name(image, "Microsoft.Xna.Framework", "Vector3");
-	vector4Class = mono_class_from_name(image, "Microsoft.Xna.Framework", "Vector4");
-	quaternionClass = mono_class_from_name(image, "Microsoft.Xna.Framework", "Quaternion");
-
-	MonoBindings::SetupInternalCalls();
+	Mono::Vector4::Setup(image);
+	Mono::Vector3::Setup(image);
+	Mono::Vector2::Setup(image);
+	Mono::Quaternion::Setup(image);
+	Mono::BoundingBox::Setup(image);
 }
 
 //------------------------------------------------------------------------------
@@ -65,7 +70,9 @@ MonoBindings::Initialize()
 void
 MonoBindings::SetupInternalCalls()
 {
-	mono_add_internal_call("Game::GetTransform", MonoBindings::GetTransform);
+	mono_add_internal_call("Nebula.Game.Entity::GetTransform", MonoBindings::GetTransform);
+	mono_add_internal_call("Nebula.Game.Entity::IsValid", MonoBindings::EntityIsValid);
+	mono_add_internal_call("Nebula.EntityManager::CreateEntity", MonoBindings::CreateEntity);
 }
 
 //------------------------------------------------------------------------------
@@ -76,6 +83,26 @@ MonoBindings::GetTransform(unsigned int entity)
 {
 	Math::matrix44 mat = Game::TransformComponent::GetWorldTransform(Game::Entity(entity));
 	return Mono::Matrix44::Convert(mat);
+}
+
+//------------------------------------------------------------------------------
+/**
+*/
+MonoBoolean*
+MonoBindings::EntityIsValid(unsigned int entity)
+{
+	bool valid = Game::EntityManager::Instance()->IsAlive(entity);
+	return (MonoBoolean*)mono_object_new(mono_domain_get(), mono_get_boolean_class());
+}
+
+//------------------------------------------------------------------------------
+/**
+*/
+MonoObject*
+MonoBindings::CreateEntity()
+{
+	auto e = Game::EntityManager::Instance()->NewEntity();
+	return Mono::Entity::Convert(e);
 }
 
 //------------------------------------------------------------------------------

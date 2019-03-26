@@ -35,6 +35,12 @@ namespace Microsoft.Xna.Framework
             this.Max = max;
         }
 
+        public BoundingBox(float minx, float miny, float minz, float maxx, float maxy, float maxz)
+        {
+            this.Min = new Vector3(minx, miny, minz);
+            this.Max = new Vector3(maxx, maxy, maxz);
+        }
+
         #endregion Public Constructors
 
 

@@ -24,7 +24,7 @@ void Matrix44::Setup(MonoImage * image)
 	mono_method_desc_free(desc);
 
 	if (!matrixConstructor)
-		n_error("Could not find Matrix constructor!");
+		n_error("Could not find matrix constructor!");
 }
 
 //------------------------------------------------------------------------------
@@ -34,25 +34,25 @@ MonoObject*
 Matrix44::Convert(Math::matrix44 const & matrix)
 {
 	MonoObject* retval = mono_object_new(mono_domain_get(), matrixClass);
-	// void* args[] = {
-	// 	(void*)&matrix.getrow0()[0],
-	// 	(void*)&matrix.getrow0()[1],
-	// 	(void*)&matrix.getrow0()[2],
-	// 	(void*)&matrix.getrow0()[3],
-	// 	(void*)&matrix.getrow1()[0],
-	// 	(void*)&matrix.getrow1()[1],
-	// 	(void*)&matrix.getrow1()[2],
-	// 	(void*)&matrix.getrow1()[3],
-	// 	(void*)&matrix.getrow2()[0],
-	// 	(void*)&matrix.getrow2()[1],
-	// 	(void*)&matrix.getrow2()[2],
-	// 	(void*)&matrix.getrow2()[3],
-	// 	(void*)&matrix.getrow3()[0],
-	// 	(void*)&matrix.getrow3()[1],
-	// 	(void*)&matrix.getrow3()[2],
-	// 	(void*)&matrix.getrow3()[3]
-	// };
-	// mono_runtime_invoke(matrixConstructor, retval, args, NULL);
+	void* args[16] = {
+		(void*)&matrix.getrow0()[0],
+		(void*)&matrix.getrow0()[1],
+		(void*)&matrix.getrow0()[2],
+		(void*)&matrix.getrow0()[3],
+		(void*)&matrix.getrow1()[0],
+		(void*)&matrix.getrow1()[1],
+		(void*)&matrix.getrow1()[2],
+		(void*)&matrix.getrow1()[3],
+		(void*)&matrix.getrow2()[0],
+		(void*)&matrix.getrow2()[1],
+		(void*)&matrix.getrow2()[2],
+		(void*)&matrix.getrow2()[3],
+		(void*)&matrix.getrow3()[0],
+		(void*)&matrix.getrow3()[1],
+		(void*)&matrix.getrow3()[2],
+		(void*)&matrix.getrow3()[3]
+	};
+	mono_runtime_invoke(matrixConstructor, retval, args, NULL);
 	return retval;
 }
 

@@ -41,6 +41,18 @@ fips_dir(mono/conversion)
         monoconfig.h
         matrix44.h
         matrix44.cc
+        vector4.h
+        vector4.cc
+        vector3.h
+        vector3.cc
+        vector2.h
+        vector2.cc
+        quaternion.h
+        quaternion.cc
+        bbox.h
+        bbox.cc
+        entity.h
+        entity.cc
     )
 fips_end_module()
 
@@ -57,13 +69,13 @@ fips_begin_sharedlib(xna_math)
             Matrix.cs
             Plane.cs
             PlaneIntersectionType.cs
-            Point.cs
             Quaternion.cs
             Ray.cs
             Rectangle.cs
             Vector2.cs
             Vector3.cs
             Vector4.cs
+            Point.cs
         )
 fips_end_sharedlib()
     target_compile_options(xna_math

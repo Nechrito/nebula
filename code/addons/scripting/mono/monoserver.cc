@@ -30,7 +30,7 @@ static Mono::MonoBindings bindings;
 /**
 */
 MonoServer::MonoServer() :
-	waitForDebugger(false)
+	waitForDebugger(true)
 {
     __ConstructSingleton;
 }

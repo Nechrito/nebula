@@ -11,6 +11,8 @@
 #include "scripting/scriptconfig.h"
 #include "mono/metadata/object.h"
 #include "game/entity.h"
+#include "math/matrix44.h"
+
 namespace Mono
 {
 
@@ -26,8 +28,8 @@ public:
 private:
 	static void SetupInternalCalls();
 
-	static MonoObject* GetTransform(unsigned int entity);
-	static MonoBoolean* EntityIsValid(unsigned int entity);
+	static Math::matrix44 GetTransform(unsigned int entity);
+	static bool EntityIsValid(unsigned int entity);
 	static MonoObject* CreateEntity();
 };
 

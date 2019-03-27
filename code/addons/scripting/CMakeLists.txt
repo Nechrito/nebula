@@ -84,6 +84,12 @@ fips_end_sharedlib()
     set_target_properties(xna_math PROPERTIES 
         VS_DOTNET_REFERENCES "System.Runtime.Serialization"
         )
+    # we need to convert .pdb to .mdb files to load debugging symbols correctly
+    add_custom_command(TARGET xna_math
+        COMMAND pdb2mdb ${FIPS_PROJECT_DEPLOY_DIR}/xna_math${CMAKE_SHARED_LIBRARY_SUFFIX}
+        VERBATIM
+        POST_BUILD
+        )
     
 
 target_link_libraries(scripting ${PYTHON_LIBRARY_RELEASE} ${MONO_LIBRARIES})

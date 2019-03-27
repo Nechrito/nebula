@@ -12,7 +12,6 @@
 
 #include "basegamefeature\components\transformcomponent.h"
 
-// #include "conversion/matrix44.h"
 #include "conversion/vector4.h"
 #include "conversion/vector3.h"
 #include "conversion/vector2.h"
@@ -56,21 +55,7 @@ MonoBindings::Initialize()
 	
 	image = mono_assembly_get_image(assembly);
 
-	// n_printf("classes: --------------------------------------------------------------------------\n");
-	// const MonoTableInfo* table_info = mono_image_get_table_info(image, MONO_TABLE_TYPEDEF);
-	// int rows = mono_table_info_get_rows(table_info);
-	// for (int i = 0; i < rows; i++)
-	// {
-	// 	MonoClass* _class = nullptr;
-	// 	uint32_t cols[MONO_TYPEDEF_SIZE];
-	// 	mono_metadata_decode_row(table_info, i, cols, MONO_TYPEDEF_SIZE);
-	// 	const char* name = mono_metadata_string_heap(image, cols[MONO_TYPEDEF_NAME]);
-	// 	const char* name_space = mono_metadata_string_heap(image, cols[MONO_TYPEDEF_NAMESPACE]);
-	// 	_class = mono_class_from_name(image, name_space, name);
-	// 	n_printf("%s.%s\n", name_space, name);
-	// }
-
-	// Mono::Matrix44::Setup(image);
+	Mono::Matrix44::Setup(image);
 	Mono::Vector4::Setup(image);
 	Mono::Vector3::Setup(image);
 	Mono::Vector2::Setup(image);
@@ -85,6 +70,7 @@ void
 MonoBindings::SetupInternalCalls()
 {
 	mono_add_internal_call("Nebula.Game.Entity::GetTransform", MonoBindings::GetTransform);
+	mono_add_internal_call("Nebula.Game.Entity::SetTransform", MonoBindings::SetTransform);
 	mono_add_internal_call("Nebula.Game.Entity::IsAlive", MonoBindings::EntityIsValid);
 	mono_add_internal_call("Nebula.EntityManager::CreateEntity", MonoBindings::CreateEntity);
 }
@@ -101,6 +87,15 @@ MonoBindings::GetTransform(unsigned int entity)
 //------------------------------------------------------------------------------
 /**
 */
+void
+MonoBindings::SetTransform(Game::Entity* entity, MonoObject* mat)
+{
+	Game::TransformComponent::SetLocalTransform(*entity, Matrix44::Convert(mat));
+}
+
+//------------------------------------------------------------------------------
+/**
+*/
 bool
 MonoBindings::EntityIsValid(unsigned int entity)
 {
@@ -109,12 +104,15 @@ MonoBindings::EntityIsValid(unsigned int entity)
 
 //------------------------------------------------------------------------------
 /**
+	Can't pass the entity struct directly, however we can pass
+	the id type (blittable) and implicitly convert it to Game.Entity in C#
 */
-MonoObject*
+decltype(Game::Entity::id)
 MonoBindings::CreateEntity()
 {
-	auto e = Game::EntityManager::Instance()->NewEntity();
-	return Mono::Entity::Convert(e);
+	Game::Entity entity = Game::EntityManager::Instance()->NewEntity();
+	Game::TransformComponent::RegisterEntity(entity);
+	return entity.id;
 }
 
 //------------------------------------------------------------------------------

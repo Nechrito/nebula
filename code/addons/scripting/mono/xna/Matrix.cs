@@ -5,9 +5,58 @@
 using System;
 using System.Diagnostics;
 using System.Runtime.Serialization;
+using System.Runtime.InteropServices;
 
 namespace Microsoft.Xna.Framework
-{ 
+{
+    // class MatrixMarshaler : ICustomMarshaler
+    // {
+    // 
+    //     private static MatrixMarshaler Instance = new MatrixMarshaler();
+    // 
+    //     public static ICustomMarshaler GetInstance(string s)
+    //     {
+    //         return Instance;
+    //     }
+    // 
+    //     public void CleanUpManagedData(object o)
+    //     {
+    //     }
+    // 
+    //     public void CleanUpNativeData(IntPtr pNativeData)
+    //     {
+    //         Marshal.FreeHGlobal(pNativeData);
+    //     }
+    // 
+    //     public int GetNativeDataSize()
+    //     {
+    //         return IntPtr.Size;
+    //     }
+    // 
+    //     public IntPtr MarshalManagedToNative(object obj)
+    //     {
+    //         Matrix mat = (Matrix)obj;
+    // 
+    //         int size = System.Runtime.InteropServices.Marshal.SizeOf(typeof(Matrix));
+    // 
+    //         IntPtr rawptr = Marshal.AllocHGlobal(size + 8);
+    //         IntPtr aligned = new IntPtr(16 * (((long)rawptr + 15) / 16));
+    //         
+    //         
+    //         IntPtr ret = Marshal.AllocHGlobal(System.Runtime.InteropServices.Marshal.SizeOf(typeof(Util.String)));
+    //         Marshal.StructureToPtr(str, ret, false);
+    //         return ret;
+    //     }
+    // 
+    //     public object MarshalNativeToManaged(IntPtr pNativeData)
+    //     {
+    //         string s = Marshal.PtrToStringAnsi(pNativeData);
+    //         // Console.WriteLine($"# MatrixMarshaler.MarshalNativeToManaged ({pNativeData:x})=`{s}'\n");
+    //         return s;
+    //     }
+    // }
+
+
     /// <summary>
     /// Represents the right-handed 4x4 floating point matrix, which can store translation, scale and rotation information.
     /// </summary>

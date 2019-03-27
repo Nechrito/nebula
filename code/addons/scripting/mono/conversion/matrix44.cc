@@ -23,15 +23,6 @@ void Matrix44::Setup(MonoImage * image)
 	matrixConstructor = mono_method_desc_search_in_class(desc, matrixClass);
 	mono_method_desc_free(desc);
 
-	/*
-	void* iter = NULL;
-	MonoMethod* m;
-	while ((m = mono_class_get_methods(matrixClass, &iter)))
-	{
-		n_printf("%s\n", mono_signature_get_desc(mono_method_get_signature(m, image, NULL), true));
-	}
-	*/
-	
 	if (!matrixConstructor)
 		n_error("Could not find Matrix constructor!");
 }
@@ -65,6 +56,18 @@ Matrix44::Convert(Math::matrix44 const& matrix)
 	
 	mono_runtime_invoke(matrixConstructor, retval, args, NULL);
 	return retval;
+}
+
+//------------------------------------------------------------------------------
+/**
+*/
+Math::matrix44
+Matrix44::Convert(MonoObject* object)
+{
+	Math::matrix44 mat;
+	void* unboxed = mono_object_unbox(object);
+	Memory::Copy(unboxed, (void*)&mat.getrow0()[0], sizeof(Math::matrix44));
+	return mat;
 }
 
 } // namespace Mono

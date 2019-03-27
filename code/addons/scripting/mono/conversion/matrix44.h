@@ -22,6 +22,7 @@ class Matrix44
 public:
 	static void Setup(MonoImage* image);
 	static MonoObject* Convert(Math::matrix44 const& matrix);
+	static Math::matrix44 Convert(MonoObject* object);
 };
 
 } // namespace Mono

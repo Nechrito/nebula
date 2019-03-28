@@ -65,7 +65,8 @@ Math::matrix44
 Matrix44::Convert(MonoObject* object)
 {
 	Math::matrix44 mat;
-	void* unboxed = mono_object_unbox(object);
+	// void* unboxed = mono_object_unbox(object);
+	void* unboxed = (void*)object;
 	Memory::Copy(unboxed, (void*)&mat.getrow0()[0], sizeof(Math::matrix44));
 	return mat;
 }

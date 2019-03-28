@@ -56,9 +56,22 @@ fips_dir(mono/conversion)
     )
 fips_end_module()
 
-fips_begin_sharedlib(xna_math)
+fips_begin_sharedlib(nebula_mono)
     enable_language(CSharp)
-    fips_dir(mono/xna)
+    fips_dir(mono/csharp/)
+        fips_files(
+            Main.cs
+        )
+    fips_dir(mono/csharp/util)
+        fips_files(
+            String.cs
+        )
+    fips_dir(mono/csharp/engine)
+        fips_files(
+            Api.cs
+            ConsoleHook.cs
+        )
+    fips_dir(mono/csharp/xna)
         fips_files(
             BoundingBox.cs
             BoundingFrustum.cs
@@ -78,15 +91,16 @@ fips_begin_sharedlib(xna_math)
             Point.cs
         )
 fips_end_sharedlib()
-    target_compile_options(xna_math
+    target_compile_options(nebula_mono
         PRIVATE "/langversion:6"
+        PRIVATE "/unsafe"
         )
-    set_target_properties(xna_math PROPERTIES 
+    set_target_properties(nebula_mono PROPERTIES 
         VS_DOTNET_REFERENCES "System.Runtime.Serialization"
         )
     # we need to convert .pdb to .mdb files to load debugging symbols correctly
-    add_custom_command(TARGET xna_math
-        COMMAND pdb2mdb ${FIPS_PROJECT_DEPLOY_DIR}/xna_math${CMAKE_SHARED_LIBRARY_SUFFIX}
+    add_custom_command(TARGET nebula_mono
+        COMMAND pdb2mdb ${FIPS_PROJECT_DEPLOY_DIR}/nebula_mono${CMAKE_SHARED_LIBRARY_SUFFIX}
         VERBATIM
         POST_BUILD
         )

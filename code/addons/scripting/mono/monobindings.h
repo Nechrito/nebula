@@ -17,7 +17,6 @@
 namespace Mono
 {
 
-
 class MonoBindings
 {
 public:
@@ -29,10 +28,11 @@ public:
 private:
 	static void SetupInternalCalls();
 
-	static Math::matrix44 GetTransform(unsigned int entity);
-	static void SetTransform(Game::Entity* entity, MonoObject* mat);
-	static bool EntityIsValid(unsigned int entity);
+	static Math::matrix44 GetTransform(Game::Entity* entity);
+	static void SetTransform(Game::Entity* entity, Math::matrix44* mat);
+	static bool EntityIsValid(Game::Entity* entity);
 	static decltype(Game::Entity::id) CreateEntity();
+	static void DeleteEntity(Game::Entity* entity);
 };
 
 //------------------------------------------------------------------------------

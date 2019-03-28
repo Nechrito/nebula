@@ -136,7 +136,7 @@ MonoServer::Open()
 		mono_trace_set_print_handler(Mono::N_Print);
 		mono_trace_set_printerr_handler(Mono::N_Error);
 
-		IO::URI uri = IO::URI("bin:scripts.dll");
+		IO::URI uri = IO::URI("bin:nebula_mono.dll");
 		Util::String path = uri.AsString();
 
 		// setup executable
@@ -147,7 +147,7 @@ MonoServer::Open()
 
 		mono_assembly_set_main(assembly);
 
-		char* argc[1] = { "scripts.dll" };
+		char* argc[1] = { "nebula_mono.dll" };
 
 		MonoImage* image = mono_assembly_get_image(assembly);
 

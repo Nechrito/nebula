@@ -1,6 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
+using System.Collections;
 using Microsoft.Xna.Framework;
 
 namespace Nebula
@@ -8,7 +9,125 @@ namespace Nebula
     namespace Game
     {
         /*
-         * Entity
+        struct ComponentData<T>
+        {
+            public T this[int index]
+            { 
+                get
+                {
+                    return (T)buffer.GetValue(index);
+                }
+                set
+                {
+                    buffer.SetValue(value, index);
+                }
+            }
+
+            // TODO: should be a native array, with acces methods via internal calls.
+            private T[] buffer;
+        }
+
+        public sealed class ComponentManager
+        {
+            private static readonly ComponentManager instance = new ComponentManager();
+            // Explicit static constructor to tell C# compiler
+            // not to mark type as beforefieldinit
+            static ComponentManager() {}
+            private ComponentManager() {}
+
+            public static ComponentManager Instance
+            {
+                get
+                {
+                    return instance;
+                }
+            }
+
+            public static void RegisterComponent(Component<object> component)
+            {
+                Instance.registry.Add(component, )
+            }
+            
+            private Hashtable registry;
+        }
+
+        class Component<DATA>
+        {
+            public enum Events
+            {
+                OnFrame,
+                OnActivate,
+                OnDeactivate
+            }
+
+            protected delegate void EventDelegate();
+
+            void Register(Game.Entity entity)
+            {
+
+            }
+
+            void Deregister(Game.Entity entity)
+            {
+
+            }
+
+            protected void RegisterEvent(Events e, EventDelegate func)
+            {
+                //TODO: Internal call to componentmanager
+                // Game.ComponentManager.SetupEventDelegate(e);
+            }
+
+            public virtual void SetupEvents()
+            {
+            }
+
+            private int size;
+            protected DATA data;
+            private Hashtable entityMap;
+            // TODO: native hashtable for fast access
+            // private Util.Hashtable<Game.Entity, Game.InstanceId> entityMap;
+        }
+
+        struct PlayerData
+        {
+            public ComponentData<float> speed;
+            public ComponentData<int> health;
+            public ComponentData<Vector3> position;
+        }
+
+        class PlayerComponent : Component<PlayerData>
+        {
+            PlayerComponent()
+            {
+                // Name, events and everything is derived with reflection
+                Game.ComponentManager.RegisterComponent(this);
+            }
+
+            public override void SetupEvents()
+            {
+                this.RegisterEvent(Events.OnFrame, this.OnFrame);
+                this.RegisterEvent(Events.OnFrame, this.OnActivate);
+                this.RegisterEvent(Events.OnFrame, this.OnDeactivate);
+            }
+
+            void OnFrame()
+            {
+            }
+
+            void OnActivate()
+            {
+            }
+
+            void OnDeactivate()
+            {
+            }
+        }
+        */
+
+
+        /*
+         * Entity   
          */
         public struct Entity : IEquatable<Entity>
         {

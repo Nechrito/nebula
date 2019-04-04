@@ -197,10 +197,13 @@ public:
 	static char ToChar(Code key);
     /// convert from string
     static Code FromString(const Util::String& str);
+	/// check if a key string is valid
+	static bool IsValid(const Util::String& str);
     /// get key codes by group
     static Util::Array<Key::Code> KeyCodesByGroup(Key::Group group);
 private:
     static Util::Dictionary<Util::String,Code> dict;
+	static void SetupDict();
 };
 
 };

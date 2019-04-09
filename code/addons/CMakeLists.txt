@@ -3,3 +3,7 @@ fips_add_subdirectory(gltf)
 fips_add_subdirectory(dynui)
 fips_add_subdirectory(scripting)
 fips_add_subdirectory(tinyxml)
+
+# IF (USE_MONO)
+    fips_add_subdirectory(nsharp)
+# ENDIF (USE_MONO)

@@ -7,7 +7,8 @@
         
     (C) 2019 Individual contributors, see AUTHORS file
 */
-#include "scripting/scriptserver.h"
+#include "core/refcounted.h"
+#include "core/singleton.h"
 #include "util/string.h"
 #include <mono/jit/jit.h>
 #include <mono/metadata/assembly.h>
@@ -15,7 +16,7 @@
 //------------------------------------------------------------------------------
 namespace Scripting
 {
-class MonoServer : public ScriptServer
+class MonoServer : public Core::RefCounted
 {
     __DeclareClass(MonoServer);
     __DeclareSingleton(MonoServer);
@@ -28,16 +29,16 @@ public:
     bool Open();
     /// close the script server
     void Close();
-    /// evaluate a script statement in a string
-    bool Eval(const Util::String& str);	
-    /// evaluate script in file
-    bool EvalFile(const IO::URI& file);
-	/// enable debugging. this needs to be called before Open()
+    /// enable debugging. this needs to be called before Open()
 	void SetDebuggingEnabled(bool enabled);
+
+	bool const IsOpen();
 private:
 	MonoDomain* domain;
 
 	bool waitForDebugger;
+
+	bool isOpen;
 };
 
 } // namespace Scripting

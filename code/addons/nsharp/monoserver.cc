@@ -120,7 +120,7 @@ MonoServer::Open()
 	}
 
 	// Intialize JIT runtime
-	this->domain = mono_jit_init("Nebula Scripting Subsystem");
+	this->domain = mono_jit_init("Nebula Mono Subsystem");
 	if (!domain)
 	{
 		n_error("Failed to initialize Mono JIT runtime!");
@@ -137,7 +137,7 @@ MonoServer::Open()
 	mono_trace_set_print_handler(Mono::N_Print);
 	mono_trace_set_printerr_handler(Mono::N_Error);
 
-	IO::URI uri = IO::URI("bin:nebula_mono.dll");
+	IO::URI uri = IO::URI("bin:NebulaEngine.dll");
 	Util::String path = uri.AsString();
 
 	// setup executable
@@ -150,8 +150,6 @@ MonoServer::Open()
 	}
 
 	mono_assembly_set_main(assembly);
-
-	char* argc[1] = { "nebula_mono.dll" };
 
 	MonoImage* image = mono_assembly_get_image(assembly);
 
@@ -196,6 +194,26 @@ void
 MonoServer::SetDebuggingEnabled(bool enabled)
 {
 	this->waitForDebugger = enabled;
+}
+
+//------------------------------------------------------------------------------
+/**
+*/
+void
+MonoServer::Load(IO::URI const& uri)
+{
+	Util::String path = uri.AsString();
+	MonoAssembly* assembly = mono_domain_assembly_open(domain, path.AsCharPtr());
+	
+	if (!assembly)
+	{
+		n_warning("Could not load Mono assembly!");
+		return;
+	}
+
+	auto assemblyId = this->assemblies.Alloc();
+	this->assemblies.Get<0>(assemblyId) = assembly;
+	this->assemblyTable.Add(uri, assemblyId);
 }
 
 //------------------------------------------------------------------------------

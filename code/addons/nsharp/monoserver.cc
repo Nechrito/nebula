@@ -140,7 +140,7 @@ MonoServer::Open()
 	IO::URI uri = IO::URI("bin:NebulaEngine.dll");
 	Util::String path = uri.AsString();
 
-	// setup executable
+	// setup default executable
 	MonoAssembly* assembly;
 	assembly = mono_domain_assembly_open(domain, path.AsCharPtr());
 	if (!assembly)

@@ -199,7 +199,7 @@ MonoServer::SetDebuggingEnabled(bool enabled)
 //------------------------------------------------------------------------------
 /**
 */
-void
+MonoAssemblyId
 MonoServer::Load(IO::URI const& uri)
 {
 	Util::String path = uri.AsString();
@@ -208,12 +208,52 @@ MonoServer::Load(IO::URI const& uri)
 	if (!assembly)
 	{
 		n_warning("Could not load Mono assembly!");
+		return InvalidIndex;
+	}
+
+	MonoAssemblyId assemblyId = this->assemblies.Alloc();
+	this->assemblies.Get<0>(assemblyId.id) = assembly;
+	this->assemblyTable.Add(path, assemblyId.id);
+	return assemblyId;
+}
+
+//------------------------------------------------------------------------------
+/**
+	Function should be formatted as: "Namespace.Namespace.Class/NestedClass::Function()"
+*/
+void
+MonoServer::Exec(MonoAssemblyId assemblyId, Util::String const& function)
+{
+	if (assemblyId > this->assemblies.Size() || assemblyId == InvalidIndex)
+	{
+		n_warning("Invalid assembly id!");
 		return;
 	}
 
-	auto assemblyId = this->assemblies.Alloc();
-	this->assemblies.Get<0>(assemblyId) = assembly;
-	this->assemblyTable.Add(uri, assemblyId);
+	MonoAssembly* assembly = this->assemblies.Get<0>(assemblyId.id);
+	MonoImage* image = mono_assembly_get_image(assembly);
+
+	// Separate class and namespace from string.
+	auto methodSeparatorIndex = function.FindCharIndex(':');
+	Util::String ns = function.ExtractRange(0, methodSeparatorIndex);
+	Util::String clsName = ns.GetFileExtension();
+	ns = ns.ExtractRange(0, ns.Length() - clsName.Length() - 1);
+
+	MonoClass* cls = mono_class_from_name(image, ns.AsCharPtr(), clsName.AsCharPtr());
+
+	MonoMethodDesc* desc = mono_method_desc_new(function.AsCharPtr(), true);
+	MonoMethod* entryPoint = mono_method_desc_search_in_class(desc, cls);
+
+	if (!entryPoint)
+	{
+		n_warning("Could not find entry point for Mono scripts!");
+		return;
+	}
+
+	bindings = Mono::MonoBindings();
+	bindings.Initialize();
+
+	mono_runtime_invoke(entryPoint, NULL, NULL, NULL);
 }
 
 //------------------------------------------------------------------------------

@@ -26,5 +26,4 @@ SET(SCRIPTING_LIBRARIES ${PYTHON_LIBRARY_RELEASE})
 
 target_link_libraries(scripting ${SCRIPTING_LIBRARIES})
 target_link_options(scripting PUBLIC "/WHOLEARCHIVE:scripting")
-# target_include_directories(scripting PUBLIC ${MONO_INCLUDE_DIRS})
 target_compile_options(scripting PRIVATE $<$<CXX_COMPILER_ID:MSVC>:/bigobj>)

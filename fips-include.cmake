@@ -51,11 +51,15 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/extlibs/scripts)
 
 find_package(PythonLibs 3.5 REQUIRED)
 
-cmake_policy(PUSH)
-# Ignore policy that disallows environment variables
-cmake_policy(SET CMP0074 NEW)
-find_package(MONO REQUIRED)
-cmake_policy(POP)
+option(USE_MONO "Build with mono support" OFF)
+
+IF (USE_MONO)
+    cmake_policy(PUSH)
+    # Ignore policy that disallows environment variables
+    cmake_policy(SET CMP0074 NEW)
+    find_package(MONO REQUIRED)
+    cmake_policy(POP)
+ENDIF (USE_MONO)
 
 # select physics implementation
 SET(N_BUILD_BULLET OFF)

@@ -4,6 +4,6 @@ fips_add_subdirectory(dynui)
 fips_add_subdirectory(scripting)
 fips_add_subdirectory(tinyxml)
 
-# IF (USE_MONO)
+IF (USE_MONO)
     fips_add_subdirectory(nsharp)
-# ENDIF (USE_MONO)
+ENDIF (USE_MONO)

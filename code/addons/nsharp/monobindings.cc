@@ -63,7 +63,7 @@ MonoBindings::SetTransform(Game::Entity* entity, Math::matrix44* object)
 	// Align memory to 16 bytes since c# can't do it for us.
 	// just copy the data to the stack
 	static Math::matrix44 mat;
-	Memory::Copy((void*)object, (void*)&mat.getrow0()[0], sizeof(Math::matrix44));
+	mat.loadu((Math::scalar*)object);
 	Game::TransformComponent::SetLocalTransform(*entity, mat);
 }
 

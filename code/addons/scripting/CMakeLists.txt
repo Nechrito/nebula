@@ -17,6 +17,8 @@ fips_dir(python)
         deargui.cpp
         pybindings.h
         pybindings.cc
+        conversion.h
+        conversion.cc
         )
 fips_end_module()
 

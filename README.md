@@ -24,4 +24,7 @@ On Windows, you might need to add the `bin` folder of your mono installation to 
 If CMake is having trouble finding Mono, try adding the root folder of your mono installation to an environment variable and call it `MONO_ROOT`.
 
 ## Setup
+1. `./fips set config vulkan-win64-vstudio-debug` in your project directory
+
 Remember to run `fips nebula` verb to set work and toolkit directory registry variables.
+

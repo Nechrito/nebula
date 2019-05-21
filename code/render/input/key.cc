@@ -1,14 +1,14 @@
 //------------------------------------------------------------------------------
 //  key.cc
 //  (C) 2007 Radon Labs GmbH
-//  (C) 2013-2018 Individual contributors, see AUTHORS file
+//  (C) 2013-2019 Individual contributors, see AUTHORS file
 //------------------------------------------------------------------------------
 #include "stdneb.h"
 #include "input/key.h"
 
 namespace Input
 {
-Util::Dictionary<Util::String,Key::Code> Key::dict;
+Util::Dictionary<Util::String, Key::Code> Key::dict;
 
 //------------------------------------------------------------------------------
 /**
@@ -16,160 +16,160 @@ Util::Dictionary<Util::String,Key::Code> Key::dict;
 Util::String
 Key::ToString(Code code)
 {
-    switch (code)
-    {
-        case Back:          return "Back";
-        case Tab:           return "Tab";
-        case Clear:         return "Clear";
-        case Return:        return "Return";
-        case Shift:         return "Shift";
-        case Control:       return "Control";
-        case Menu:          return "Menu";
-        case Pause:         return "Pause";
-        case Capital:       return "Capital";
-        case Escape:        return "Escape";
-        case Convert:       return "Convert";
-        case NonConvert:    return "NonConvert";
-        case Accept:        return "Accept";
-        case ModeChange:    return "ModeChange";
-        case Space:         return "Space";
-        case Prior:         return "Prior";
-        case Next:          return "Next";
-        case End:           return "End";
-        case Home:          return "Home";
-        case Left:          return "Left";
-        case Right:         return "Right";
-        case Up:            return "Up";
-        case Down:          return "Down";
-        case Select:        return "Select";
-        case Print:         return "Print";
-        case Execute:       return "Execute";
-        case Snapshot:      return "Snapshot";
-        case Insert:        return "Insert";
-        case Delete:        return "Delete";
-        case Help:          return "Help";
-        case LeftWindows:   return "LeftWindows";
-        case RightWindows:  return "RightWindows";
-        case Apps:          return "Apps";
-        case Sleep:         return "Sleep";
-        case NumPad0:       return "NumPad0";
-        case NumPad1:       return "NumPad1";
-        case NumPad2:       return "NumPad2";
-        case NumPad3:       return "NumPad3";
-        case NumPad4:       return "NumPad4";
-        case NumPad5:       return "NumPad5";
-        case NumPad6:       return "NumPad6";
-        case NumPad7:       return "NumPad7";
-        case NumPad8:       return "NumPad8";
-        case NumPad9:       return "NumPad9";
-        case Multiply:      return "Multiply";
-        case Add:           return "Add";
-        case Subtract:      return "Subtract";
-        case Separator:     return "Separator";
-        case Decimal:       return "Decimal";
-        case Divide:        return "Divide";
-        case F1:            return "F1";
-        case F2:            return "F2";
-        case F3:            return "F3";
-        case F4:            return "F4";
-        case F5:            return "F5";
-        case F6:            return "F6";
-        case F7:            return "F7";
-        case F8:            return "F8";
-        case F9:            return "F9";
-        case F10:           return "F10";
-        case F11:           return "F11";
-        case F12:           return "F12";
-        case F13:           return "F13";
-        case F14:           return "F14";
-        case F15:           return "F15";
-        case F16:           return "F16";
-        case F17:           return "F17";
-        case F18:           return "F18";
-        case F19:           return "F19";
-        case F20:           return "F20";
-        case F21:           return "F21";
-        case F22:           return "F22";
-        case F23:           return "F23";
-        case F24:           return "F24";
-        case NumLock:       return "NumLock";
-        case Scroll:        return "Scroll";
-        case Semicolon:     return "Semicolon";
-        case Slash:         return "Slash";
-        case Tilde:         return "Tilde";
-        case LeftBracket:   return "LeftBracket";
-        case RightBracket:  return "RightBracket";
-        case BackSlash:     return "BackSlash";
-        case Quote:         return "Quote";
-        case Comma:         return "Comma";
-        case Underbar:      return "Underbar";
-        case Period:        return "Period";
-        case Equality:      return "Equality";
-        case LeftShift:     return "LeftShift";
-        case RightShift:    return "RightShift";
-        case LeftControl:   return "LeftControl";
-        case RightControl:  return "RightControl";
-        case LeftMenu:      return "LeftMenu";
-        case RightMenu:     return "RightMenu";
-        case BrowserBack:   return "BrowserBack";
-        case BrowserForward:    return "BrowserForward";
-        case BrowserRefresh:    return "BrowserRefresh";
-        case BrowserStop:       return "BrowserStop";
-        case BrowserSearch:     return "BrowserSearch";
-        case BrowserFavorites:  return "BrowserFavorites";
-        case BrowserHome:       return "BrowserHome";
-        case VolumeMute:        return "VolumeMute";
-        case VolumeDown:        return "VolumeDown";
-        case VolumeUp:          return "VolumeUp";
-        case MediaNextTrack:    return "MediaNextTrack";
-        case MediaPrevTrack:    return "MediaPrevTrack";
-        case MediaStop:         return "MediaStop";
-        case MediaPlayPause:    return "MediaPlayPause";
-        case LaunchMail:        return "LaunchMail";
-        case LaunchMediaSelect: return "LaunchMediaSelect";
-        case LaunchApp1:        return "LaunchApp1";
-        case LaunchApp2:        return "LaunchApp2";
-        case Key0:          return "Key0";
-        case Key1:          return "Key1";
-        case Key2:          return "Key2";
-        case Key3:          return "Key3";
-        case Key4:          return "Key4";
-        case Key5:          return "Key5";
-        case Key6:          return "Key6";
-        case Key7:          return "Key7";
-        case Key8:          return "Key8";
-        case Key9:          return "Key9";
-        case A:             return "A";
-        case B:             return "B";
-        case C:             return "C";
-        case D:             return "D";
-        case E:             return "E";
-        case F:             return "F";
-        case G:             return "G";
-        case H:             return "H";
-        case I:             return "I";
-        case J:             return "J";
-        case K:             return "K";
-        case L:             return "L";
-        case M:             return "M";
-        case N:             return "N";
-        case O:             return "O";
-        case P:             return "P";
-        case Q:             return "Q";
-        case R:             return "R";
-        case S:             return "S";
-        case T:             return "T";
-        case U:             return "U";
-        case V:             return "V";
-        case W:             return "W";
-        case X:             return "X";
-        case Y:             return "Y";
-        case Z:             return "Z";    
-		default:
-			break;
-    }
-    n_error("Invalid key code!");
-    return "";
+	switch (code)
+	{
+	case Back:          return "Back";
+	case Tab:           return "Tab";
+	case Clear:         return "Clear";
+	case Return:        return "Return";
+	case Shift:         return "Shift";
+	case Control:       return "Control";
+	case Menu:          return "Menu";
+	case Pause:         return "Pause";
+	case Capital:       return "Capital";
+	case Escape:        return "Escape";
+	case Convert:       return "Convert";
+	case NonConvert:    return "NonConvert";
+	case Accept:        return "Accept";
+	case ModeChange:    return "ModeChange";
+	case Space:         return "Space";
+	case Prior:         return "Prior";
+	case Next:          return "Next";
+	case End:           return "End";
+	case Home:          return "Home";
+	case Left:          return "Left";
+	case Right:         return "Right";
+	case Up:            return "Up";
+	case Down:          return "Down";
+	case Select:        return "Select";
+	case Print:         return "Print";
+	case Execute:       return "Execute";
+	case Snapshot:      return "Snapshot";
+	case Insert:        return "Insert";
+	case Delete:        return "Delete";
+	case Help:          return "Help";
+	case LeftWindows:   return "LeftWindows";
+	case RightWindows:  return "RightWindows";
+	case Apps:          return "Apps";
+	case Sleep:         return "Sleep";
+	case NumPad0:       return "NumPad0";
+	case NumPad1:       return "NumPad1";
+	case NumPad2:       return "NumPad2";
+	case NumPad3:       return "NumPad3";
+	case NumPad4:       return "NumPad4";
+	case NumPad5:       return "NumPad5";
+	case NumPad6:       return "NumPad6";
+	case NumPad7:       return "NumPad7";
+	case NumPad8:       return "NumPad8";
+	case NumPad9:       return "NumPad9";
+	case Multiply:      return "Multiply";
+	case Add:           return "Add";
+	case Subtract:      return "Subtract";
+	case Separator:     return "Separator";
+	case Decimal:       return "Decimal";
+	case Divide:        return "Divide";
+	case F1:            return "F1";
+	case F2:            return "F2";
+	case F3:            return "F3";
+	case F4:            return "F4";
+	case F5:            return "F5";
+	case F6:            return "F6";
+	case F7:            return "F7";
+	case F8:            return "F8";
+	case F9:            return "F9";
+	case F10:           return "F10";
+	case F11:           return "F11";
+	case F12:           return "F12";
+	case F13:           return "F13";
+	case F14:           return "F14";
+	case F15:           return "F15";
+	case F16:           return "F16";
+	case F17:           return "F17";
+	case F18:           return "F18";
+	case F19:           return "F19";
+	case F20:           return "F20";
+	case F21:           return "F21";
+	case F22:           return "F22";
+	case F23:           return "F23";
+	case F24:           return "F24";
+	case NumLock:       return "NumLock";
+	case Scroll:        return "Scroll";
+	case Semicolon:     return "Semicolon";
+	case Slash:         return "Slash";
+	case Tilde:         return "Tilde";
+	case LeftBracket:   return "LeftBracket";
+	case RightBracket:  return "RightBracket";
+	case BackSlash:     return "BackSlash";
+	case Quote:         return "Quote";
+	case Comma:         return "Comma";
+	case Underbar:      return "Underbar";
+	case Period:        return "Period";
+	case Equality:      return "Equality";
+	case LeftShift:     return "LeftShift";
+	case RightShift:    return "RightShift";
+	case LeftControl:   return "LeftControl";
+	case RightControl:  return "RightControl";
+	case LeftMenu:      return "LeftMenu";
+	case RightMenu:     return "RightMenu";
+	case BrowserBack:   return "BrowserBack";
+	case BrowserForward:    return "BrowserForward";
+	case BrowserRefresh:    return "BrowserRefresh";
+	case BrowserStop:       return "BrowserStop";
+	case BrowserSearch:     return "BrowserSearch";
+	case BrowserFavorites:  return "BrowserFavorites";
+	case BrowserHome:       return "BrowserHome";
+	case VolumeMute:        return "VolumeMute";
+	case VolumeDown:        return "VolumeDown";
+	case VolumeUp:          return "VolumeUp";
+	case MediaNextTrack:    return "MediaNextTrack";
+	case MediaPrevTrack:    return "MediaPrevTrack";
+	case MediaStop:         return "MediaStop";
+	case MediaPlayPause:    return "MediaPlayPause";
+	case LaunchMail:        return "LaunchMail";
+	case LaunchMediaSelect: return "LaunchMediaSelect";
+	case LaunchApp1:        return "LaunchApp1";
+	case LaunchApp2:        return "LaunchApp2";
+	case Key0:          return "Key0";
+	case Key1:          return "Key1";
+	case Key2:          return "Key2";
+	case Key3:          return "Key3";
+	case Key4:          return "Key4";
+	case Key5:          return "Key5";
+	case Key6:          return "Key6";
+	case Key7:          return "Key7";
+	case Key8:          return "Key8";
+	case Key9:          return "Key9";
+	case A:             return "A";
+	case B:             return "B";
+	case C:             return "C";
+	case D:             return "D";
+	case E:             return "E";
+	case F:             return "F";
+	case G:             return "G";
+	case H:             return "H";
+	case I:             return "I";
+	case J:             return "J";
+	case K:             return "K";
+	case L:             return "L";
+	case M:             return "M";
+	case N:             return "N";
+	case O:             return "O";
+	case P:             return "P";
+	case Q:             return "Q";
+	case R:             return "R";
+	case S:             return "S";
+	case T:             return "T";
+	case U:             return "U";
+	case V:             return "V";
+	case W:             return "W";
+	case X:             return "X";
+	case Y:             return "Y";
+	case Z:             return "Z";
+	default:
+		break;
+	}
+	n_error("Invalid key code!");
+	return "";
 }
 
 //------------------------------------------------------------------------------
@@ -178,38 +178,38 @@ Key::ToString(Code code)
 uint
 Key::ToDirectInput(Code key)
 {
-	switch(key)
+	switch (key)
 	{
 	case Back:          return 0x0E;
 	case Tab:           return 0x0F;
-	//case Clear:         return "Clear";
+		//case Clear:         return "Clear";
 	case Return:        return 0x1C;
-	//case Shift:         return "Shift";
-	//case Control:       return "Control";
-	//case Menu:          return "Menu";
+		//case Shift:         return "Shift";
+		//case Control:       return "Control";
+		//case Menu:          return "Menu";
 	case Pause:         return 0xC5;
-	//case Capital:       return "Capital";
+		//case Capital:       return "Capital";
 	case Escape:        return 0x01;
-	//case Convert:       return "Convert";
-	//case NonConvert:    return "NonConvert";
-	//case Accept:        return "Accept";
-	//case ModeChange:    return "ModeChange";
+		//case Convert:       return "Convert";
+		//case NonConvert:    return "NonConvert";
+		//case Accept:        return "Accept";
+		//case ModeChange:    return "ModeChange";
 	case Space:         return 0x39;
-	//case Prior:         return "Prior";
-	//case Next:          return "Next";
+		//case Prior:         return "Prior";
+		//case Next:          return "Next";
 	case End:           return 0xCF;
 	case Home:          return 0xC7;
 	case Left:          return 0xCB;
 	case Right:         return 0xCD;
 	case Up:            return 0xC8;
 	case Down:          return 0xD0;
-	//case Select:        return "Select";
-	//case Print:         return "Print";
-	//case Execute:       return "Execute";
-	//case Snapshot:      return "Snapshot";
+		//case Select:        return "Select";
+		//case Print:         return "Print";
+		//case Execute:       return "Execute";
+		//case Snapshot:      return "Snapshot";
 	case Insert:        return 0xD2;
 	case Delete:        return 0xD3;
-	//case Help:          return "Help";
+		//case Help:          return "Help";
 	case LeftWindows:   return 0xDB;
 	case RightWindows:  return 0xDC;
 	case Apps:          return 0xDD;
@@ -245,24 +245,24 @@ Key::ToDirectInput(Code key)
 	case F13:           return 0x64;
 	case F14:           return 0x65;
 	case F15:           return 0x66;
-	//case F16:           return "F16";
-	//case F17:           return "F17";
-	//case F18:           return "F18";
-	//case F19:           return "F19";
-	//case F20:           return "F20";
-	//case F21:           return "F21";
-	//case F22:           return "F22";
-	//case F23:           return "F23";
-	//case F24:           return "F24";
+		//case F16:           return "F16";
+		//case F17:           return "F17";
+		//case F18:           return "F18";
+		//case F19:           return "F19";
+		//case F20:           return "F20";
+		//case F21:           return "F21";
+		//case F22:           return "F22";
+		//case F23:           return "F23";
+		//case F24:           return "F24";
 	case NumLock:       return 0x45;
 	case Scroll:        return 0x46;
 	case Semicolon:     return 0x27;
 	case Slash:         return 0x35;
-	//case Tilde:         return "Tilde";
+		//case Tilde:         return "Tilde";
 	case LeftBracket:   return 0x1A;
 	case RightBracket:  return 0x1B;
 	case BackSlash:     return 0x2B;
-	//case Quote:         return "Quote";
+		//case Quote:         return "Quote";
 	case Comma:         return 0x33;
 	case Underbar:      return 0x93;
 	case Period:        return 0x34;
@@ -271,8 +271,8 @@ Key::ToDirectInput(Code key)
 	case RightShift:    return 0x36;
 	case LeftControl:   return 0x1D;
 	case RightControl:  return 0x9D;
-	//case LeftMenu:      return "LeftMenu";
-	//case RightMenu:     return "RightMenu";
+		//case LeftMenu:      return "LeftMenu";
+		//case RightMenu:     return "RightMenu";
 	case BrowserBack:   return 0xEA;
 	case BrowserForward:    return 0xE9;
 	case BrowserRefresh:    return 0xE7;
@@ -289,8 +289,8 @@ Key::ToDirectInput(Code key)
 	case MediaPlayPause:    return 0xA2;
 	case LaunchMail:        return 0xEC;
 	case LaunchMediaSelect: return 0xED;
-	//case LaunchApp1:        return "LaunchApp1";
-	//case LaunchApp2:        return "LaunchApp2";
+		//case LaunchApp1:        return "LaunchApp1";
+		//case LaunchApp2:        return "LaunchApp2";
 	case Key0:          return 0x0B;
 	case Key1:          return 0x02;
 	case Key2:          return 0x03;
@@ -326,7 +326,7 @@ Key::ToDirectInput(Code key)
 	case W:             return 0x11;
 	case X:             return 0x2D;
 	case Y:             return 0x15;
-	case Z:             return 0x2C;    
+	case Z:             return 0x2C;
 	default:
 		break;
 	}
@@ -338,10 +338,10 @@ Key::ToDirectInput(Code key)
 //------------------------------------------------------------------------------
 /**
 */
-uint 
-Key::ToRocket( Code key )
+uint
+Key::ToRocket(Code key)
 {
-	switch(key)
+	switch (key)
 	{
 
 	case Space:         return 1;
@@ -380,7 +380,7 @@ Key::ToRocket( Code key )
 	case W:             return 34;
 	case X:             return 35;
 	case Y:             return 36;
-	case Z:             return 37;   
+	case Z:             return 37;
 	case Semicolon:		return 38;
 	case Add:			return 39;
 	case Comma:			return 40;
@@ -392,7 +392,7 @@ Key::ToRocket( Code key )
 	case BackSlash:		return 46;
 	case RightBracket:	return 47;
 	case Quote:			return 48;
-		
+
 
 	case NumPad0:       return 51;
 	case NumPad1:       return 52;
@@ -413,7 +413,7 @@ Key::ToRocket( Code key )
 	case Capital:		return 74;
 
 	case Escape:		return 81;
-		
+
 	case Prior:			return 86;
 	case Next:			return 87;
 	case End:			return 88;
@@ -434,7 +434,7 @@ Key::ToRocket( Code key )
 	case Apps:			return 103;
 
 	case Sleep:			return 104;
-	
+
 	case F1:			return 107;
 	case F2:			return 108;
 	case F3:			return 109;
@@ -498,9 +498,9 @@ Key::ToRocket( Code key )
 //------------------------------------------------------------------------------
 /**
 */
-Key::Code Key::FromRocket(uint key )
+Key::Code Key::FromRocket(uint key)
 {
-	switch(key)
+	switch (key)
 	{
 
 	case 1: return Space;
@@ -539,7 +539,7 @@ Key::Code Key::FromRocket(uint key )
 	case 34: return W;
 	case 35: return X;
 	case 36: return Y;
-	case 37: return Z;   
+	case 37: return Z;
 	case 38: return Semicolon;
 	case 39: return Add;
 	case 40: return Comma;
@@ -641,7 +641,7 @@ Key::Code Key::FromRocket(uint key )
 		break;
 	}
 	//n_error("Invalid key code!");
-	return InvalidKey;	
+	return InvalidKey;
 }
 
 //------------------------------------------------------------------------------
@@ -650,7 +650,7 @@ Key::Code Key::FromRocket(uint key )
 char
 Key::ToChar(Code key)
 {
-	switch(key)
+	switch (key)
 	{
 	case Back:          return '\b';
 	case Tab:           return '\t';
@@ -718,7 +718,7 @@ Key::ToChar(Code key)
 	case W:             return 'W';
 	case X:             return 'X';
 	case Y:             return 'Y';
-	case Z:             return 'Z';    
+	case Z:             return 'Z';
 	default:
 		break;
 	}
@@ -737,61 +737,61 @@ Key::FromString(const Util::String& str)
     }
     return dict[str];
 }
-    
+
 //------------------------------------------------------------------------------
 /**
 */
 Util::Array<Key::Code>
 Key::KeyCodesByGroup(Key::Group group)
 {
-    Util::Array<Key::Code> keys;
-    IndexT index;
-    switch (group)
-    {
-        case Key::Letters:        
-            for (index = Key::A; index <= Key::Z; index++)
-            {
-                keys.Append((Key::Code)index);
-            }
-            break;
-        case Key::Numbers:
-            for (index = Key::Key0; index <= Key::Key9; index++)
-            {
-                keys.Append((Key::Code)index);
-            }
-            break;
-        case Key::NumPad:      
-            for (index = Key::NumPad0; index <= Key::Divide; index++)
-            {
-                keys.Append((Key::Code)index);
-            }
-            break;
-        case Key::FunctionKeys:
-            for (index = Key::F1; index <= Key::F24; index++)
-            {
-                keys.Append((Key::Code)index);
-            }
-            break;
-        case Key::CursorKeys:
-            for (index = Key::Left; index <= Key::Down; index++)
-            {
-                keys.Append((Key::Code)index);
-            }
-            break;
-        case Key::HomeBlock:            
-            keys.Append(Key::Prior);
-            keys.Append(Key::Next);
-            keys.Append(Key::Home);
-            keys.Append(Key::End);
-            keys.Append(Key::Insert);
-            keys.Append(Key::Delete);
-            break;
+	Util::Array<Key::Code> keys;
+	IndexT index;
+	switch (group)
+	{
+	case Key::Letters:
+		for (index = Key::A; index <= Key::Z; index++)
+		{
+			keys.Append((Key::Code)index);
+		}
+		break;
+	case Key::Numbers:
+		for (index = Key::Key0; index <= Key::Key9; index++)
+		{
+			keys.Append((Key::Code)index);
+		}
+		break;
+	case Key::NumPad:
+		for (index = Key::NumPad0; index <= Key::Divide; index++)
+		{
+			keys.Append((Key::Code)index);
+		}
+		break;
+	case Key::FunctionKeys:
+		for (index = Key::F1; index <= Key::F24; index++)
+		{
+			keys.Append((Key::Code)index);
+		}
+		break;
+	case Key::CursorKeys:
+		for (index = Key::Left; index <= Key::Down; index++)
+		{
+			keys.Append((Key::Code)index);
+		}
+		break;
+	case Key::HomeBlock:
+		keys.Append(Key::Prior);
+		keys.Append(Key::Next);
+		keys.Append(Key::Home);
+		keys.Append(Key::End);
+		keys.Append(Key::Insert);
+		keys.Append(Key::Delete);
+		break;
 
-        default:
-           n_error("Key::KeyCodesByGroup: Invalid Key Group.");
-           break;
-    }
-    return keys;
+	default:
+		n_error("Key::KeyCodesByGroup: Invalid Key Group.");
+		break;
+	}
+	return keys;
 }
 
 //------------------------------------------------------------------------------

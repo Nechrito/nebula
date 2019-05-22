@@ -2,29 +2,42 @@ using System;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 using System.Collections;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
 namespace Nebula
 {
     namespace Game
     {
-        /*
-        struct ComponentData<T>
+        public enum Events
+        {
+            OnFrame,
+            OnActivate,
+            OnDeactivate,
+            NumEvents
+        }
+
+        public delegate void EventDelegate();
+
+        public struct ComponentData<T>
         {
             public T this[int index]
             { 
                 get
                 {
-                    return (T)buffer.GetValue(index);
+                    //return (T)buffer.GetValue(index);
+                    return buffer[index];
                 }
                 set
                 {
-                    buffer.SetValue(value, index);
+                    // buffer.SetValue(value, index);
+                    buffer[index] = value;
                 }
             }
 
             // TODO: should be a native array, with acces methods via internal calls.
-            private T[] buffer;
+            // private T[] buffer;
+            private List<T> buffer;
         }
 
         public sealed class ComponentManager
@@ -32,7 +45,15 @@ namespace Nebula
             private static readonly ComponentManager instance = new ComponentManager();
             // Explicit static constructor to tell C# compiler
             // not to mark type as beforefieldinit
-            static ComponentManager() {}
+            static ComponentManager()
+            {
+                // Initialize eventcallbacks list to a specific size.
+                Instance.eventCallbacks = new List<List<EventDelegate>>();
+                for (int i = 0; i < (int)Events.NumEvents; i++)
+                {
+                    Instance.eventCallbacks.Add(new List<EventDelegate>());
+                }
+            }
             private ComponentManager() {}
 
             public static ComponentManager Instance
@@ -43,88 +64,66 @@ namespace Nebula
                 }
             }
 
-            public static void RegisterComponent(Component<object> component)
+            public static void RegisterComponent(IComponent component)
             {
-                Instance.registry.Add(component, )
+                component.SetupEvents();
+                Instance.registry.Add(component);
             }
-            
-            private Hashtable registry;
+
+            public static void SetupEventDelegate(Events e, EventDelegate func)
+            {
+                Instance.eventCallbacks[(int)e].Add(func);
+            }
+
+            public static void OnFrame()
+            {
+                int numCallbacks = Instance.eventCallbacks[(int)Events.OnFrame].Count;
+                for (int i = 0; i < numCallbacks; ++i)
+                {
+                    Instance.eventCallbacks[(int)Events.OnFrame][i]();
+                }
+            }
+
+            private List<IComponent> registry = new List<IComponent>();
+            private List<List<EventDelegate>> eventCallbacks;
         }
 
-        class Component<DATA>
+        public interface IComponent
         {
-            public enum Events
+            void Register(Game.Entity entity);
+            void Deregister(Game.Entity entity);
+            void SetupEvents();
+        }
+
+        public class Component<DATA> : IComponent
+        {
+            public void Register(Game.Entity entity)
             {
-                OnFrame,
-                OnActivate,
-                OnDeactivate
+                
             }
 
-            protected delegate void EventDelegate();
-
-            void Register(Game.Entity entity)
-            {
-
-            }
-
-            void Deregister(Game.Entity entity)
+            public void Deregister(Game.Entity entity)
             {
 
             }
 
             protected void RegisterEvent(Events e, EventDelegate func)
             {
-                //TODO: Internal call to componentmanager
-                // Game.ComponentManager.SetupEventDelegate(e);
+                events.Add(e);
+                Game.ComponentManager.SetupEventDelegate(e, func);
             }
 
             public virtual void SetupEvents()
             {
+                // override in subclass
             }
+
+            public readonly List<Events> events = new List<Events>();
 
             private int size;
             protected DATA data;
-            private Hashtable entityMap;
-            // TODO: native hashtable for fast access
-            // private Util.Hashtable<Game.Entity, Game.InstanceId> entityMap;
+            private Dictionary<Entity, InstanceId> entityMap;
         }
-
-        struct PlayerData
-        {
-            public ComponentData<float> speed;
-            public ComponentData<int> health;
-            public ComponentData<Vector3> position;
-        }
-
-        class PlayerComponent : Component<PlayerData>
-        {
-            PlayerComponent()
-            {
-                // Name, events and everything is derived with reflection
-                Game.ComponentManager.RegisterComponent(this);
-            }
-
-            public override void SetupEvents()
-            {
-                this.RegisterEvent(Events.OnFrame, this.OnFrame);
-                this.RegisterEvent(Events.OnFrame, this.OnActivate);
-                this.RegisterEvent(Events.OnFrame, this.OnDeactivate);
-            }
-
-            void OnFrame()
-            {
-            }
-
-            void OnActivate()
-            {
-            }
-
-            void OnDeactivate()
-            {
-            }
-        }
-        */
-
 
         /*
          * Entity   
@@ -225,11 +224,6 @@ namespace Nebula
         [DllImport ("__Internal", EntryPoint="N_Print")]
         public static extern void Log(string val);
     }
-
-// public class Entity
-// {
-//     [DllImport ("__Internal", EntryPoint="Scripting::Api::GetTransform")]
-// }
 
 // [DllImport ("__Internal", EntryPoint="Foobar", CharSet=CharSet.Ansi)]
 // static extern void Foobar(

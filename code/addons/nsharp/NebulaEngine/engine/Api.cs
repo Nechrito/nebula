@@ -11,9 +11,13 @@ namespace Nebula
     {
         public enum Events
         {
-            OnFrame,
-            OnActivate,
-            OnDeactivate,
+            // Update order
+            //OnBeginFrame, // Called every frame before rendering (old vis results)
+            //OnFixedFrame, // Called every couple of frames with a fixed delta frame time. These updates are distributed and might not be called on the same frame for all components (called after OnBeginFrame)
+            OnFrame, // Called every frame while rendering (up to date vis results)
+            //OnEndFrame, // Called after rendering is done
+            
+            // Total number of events
             NumEvents
         }
 
@@ -21,22 +25,24 @@ namespace Nebula
 
         public struct ComponentData<T>
         {
+            public void Allocate()
+            {
+                this.buffer.Add(T());
+            }
+
             public T this[int index]
             { 
                 get
                 {
-                    //return (T)buffer.GetValue(index);
                     return buffer[index];
                 }
                 set
                 {
-                    // buffer.SetValue(value, index);
                     buffer[index] = value;
                 }
             }
 
-            // TODO: should be a native array, with acces methods via internal calls.
-            // private T[] buffer;
+            // TODO: should be a native array, with access methods via internal calls.
             private List<T> buffer;
         }
 
@@ -90,20 +96,36 @@ namespace Nebula
 
         public interface IComponent
         {
-            void Register(Game.Entity entity);
+            InstanceId Register(Game.Entity entity);
             void Deregister(Game.Entity entity);
+            void OnActivate(InstanceId id);
+            void OnDeactivate(InstanceId id);
             void SetupEvents();
         }
 
         public class Component<DATA> : IComponent
         {
-            public void Register(Game.Entity entity)
+            public InstanceId Register(Game.Entity entity)
             {
-                
+                InstanceId instance = size++;
+                foreach (PropertyInfo propertyInfo in this.GetProperties())
+                {
+                    if (propertyInfo.CanRead)
+                    {
+                        propertyInfo.GetValue().Allocate();
+                    }
+                }
+
+                this.OnActivate(instance);
+                return instance;
             }
 
             public void Deregister(Game.Entity entity)
             {
+                InstanceId instance = entityMap[entity];
+                this.OnDeactivate(instance);
+                
+                // TODO: Dealloc data.
 
             }
 
@@ -114,6 +136,16 @@ namespace Nebula
             }
 
             public virtual void SetupEvents()
+            {
+                // override in subclass
+            }
+
+            public virtual void OnActivate(InstanceId id)
+            {
+                // override in subclass
+            }
+
+            public virtual void OnDeactivate(InstanceId id)
             {
                 // override in subclass
             }

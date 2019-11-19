@@ -15,6 +15,7 @@ ShaderRWTextureInfo
 ShaderRWTextureInfoSetupHelper(const ShaderRWTextureCreateInfo& info)
 {
 	ShaderRWTextureInfo rt;
+    rt.registerBindless = info.registerBindless;
 	if (info.window)
 	{
 		rt.isWindow = true;
@@ -67,5 +68,40 @@ ShaderRWTextureInfoSetupHelper(const ShaderRWTextureCreateInfo& info)
 	}
 	return rt;
 }
+
+//------------------------------------------------------------------------------
+/**
+*/
+void
+ShaderRWTextureInfoResizeHelper(ShaderRWTextureInfo& rwInfo, const ShaderRWTextureResizeInfo& info)
+{
+    if (!rwInfo.isWindow)
+    {
+        n_assert(info.width > 0 && info.height > 0 && info.depth > 0);
+        n_assert(rwInfo.type == CoreGraphics::Texture2D || rwInfo.type == CoreGraphics::TextureCube || rwInfo.type == CoreGraphics::Texture2DArray || rwInfo.type == CoreGraphics::TextureCubeArray);
+
+        rwInfo.width = (SizeT)info.width;
+        rwInfo.height = (SizeT)info.height;
+        rwInfo.depth = (SizeT)info.depth;
+        rwInfo.widthScale = info.widthScale;
+        rwInfo.heightScale = info.heightScale;
+        rwInfo.depthScale = info.depthScale;
+
+        if (rwInfo.relativeSize)
+        {
+            CoreGraphics::WindowId wnd = DisplayDevice::Instance()->GetCurrentWindow();
+            const CoreGraphics::DisplayMode mode = CoreGraphics::WindowGetDisplayMode(wnd);
+            rwInfo.width = SizeT(mode.GetWidth() * info.widthScale);
+            rwInfo.height = SizeT(mode.GetHeight() * info.widthScale);
+            rwInfo.depth = 1;
+
+            rwInfo.widthScale = info.widthScale;
+            rwInfo.heightScale = info.heightScale;
+            rwInfo.depthScale = info.depthScale;
+            rwInfo.window = wnd;
+        }
+    }
+}
+
 
 } // namespace CoreGraphics

@@ -18,6 +18,8 @@ struct VkShaderRWTextureLoadInfo
 	VkDeviceMemory mem;
 	CoreGraphics::TextureDimensions dims;
 	SizeT layers;
+    float widthScale, heightScale, depthScale;
+    bool relativeSize;
 };
 
 struct VkShaderRWTextureRuntimeInfo
@@ -29,7 +31,8 @@ struct VkShaderRWTextureRuntimeInfo
 typedef Ids::IdAllocator<
 	VkShaderRWTextureLoadInfo,
 	VkShaderRWTextureRuntimeInfo,
-	CoreGraphicsImageLayout
+    CoreGraphicsImageLayout,
+    CoreGraphics::ShaderRWTextureInfo
 > ShaderRWTextureAllocator;
 extern ShaderRWTextureAllocator shaderRWTextureAllocator;
 

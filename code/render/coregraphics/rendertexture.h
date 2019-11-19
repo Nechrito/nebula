@@ -93,8 +93,8 @@ uint RenderTextureGetBindlessHandle(const RenderTextureId id);
 
 /// helper function to setup RenderTextureInfo, already implemented
 RenderTextureInfo RenderTextureInfoSetupHelper(const RenderTextureCreateInfo& info);
-/// helper function to setup RenderTextureInfo, already implemented
-RenderTextureInfo RenderTextureInfoResizeHelper(const RenderTextureResizeInfo& info);
+/// helper function to setup RenderTextureInfo
+void RenderTextureInfoResizeHelper(RenderTextureInfo& rt, const RenderTextureResizeInfo& info);
 
 
 } // CoreGraphics

@@ -33,6 +33,8 @@ public:
 	bool IsOpen() const;
 	/// close server, discards all remaining scripts
 	void Close();
+    /// propagate resize to all in all scripts
+    void OnWindowResize();
 
 	/// load frame script and save with name
 	Ptr<FrameScript> LoadFrameScript(const Resources::ResourceName& name, const IO::URI& path);

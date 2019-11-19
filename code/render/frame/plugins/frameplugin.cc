@@ -68,9 +68,9 @@ FramePlugin::AddCallback(const Util::StringAtom name, std::function<void(IndexT)
 void
 FramePlugin::Resize()
 {
-	IndexT i;
-	for (i = 0; i < this->renderTextures.Size(); i++)		RenderTextureWindowResized(this->renderTextures[i]);
-	for (i = 0; i < this->readWriteTextures.Size(); i++)	ShaderRWTextureWindowResized(this->readWriteTextures[i]);
+	// IndexT i;
+    // for (i = 0; i < this->renderTextures.Size(); i++)		RenderTextureWindowResized(this->renderTextures[i]);
+	// for (i = 0; i < this->readWriteTextures.Size(); i++)	ShaderRWTextureWindowResized(this->readWriteTextures[i]);
 }
 
 } // namespace Base

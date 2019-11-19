@@ -79,22 +79,18 @@ RenderTextureInfoSetupHelper(const RenderTextureCreateInfo& info)
 //------------------------------------------------------------------------------
 /**
 */
-RenderTextureInfo
-RenderTextureInfoResizeHelper(const RenderTextureResizeInfo& info)
+void
+RenderTextureInfoResizeHelper(RenderTextureInfo& rt, const RenderTextureResizeInfo& resizeInfo)
 {
-	RenderTextureInfo rt;
-	n_assert(info.width > 0 && info.height > 0 && info.depth > 0);
-	n_assert(rt.type == CoreGraphics::Texture2D || rt.type == CoreGraphics::TextureCube);
-	n_assert(rt.usage != InvalidAttachment);
+    n_assert(resizeInfo.width > 0 && resizeInfo.height > 0 && resizeInfo.depth > 0);
 	CoreGraphics::WindowId wnd = DisplayDevice::Instance()->GetCurrentWindow();
 	if (rt.relativeSize)
 	{
 		const CoreGraphics::DisplayMode mode = CoreGraphics::WindowGetDisplayMode(rt.window);
-		rt.width = SizeT(mode.GetWidth() * info.widthScale);
-		rt.height = SizeT(mode.GetHeight() * info.heightScale);
+        rt.width = SizeT(mode.GetWidth() * resizeInfo.widthScale);
+        rt.height = SizeT(mode.GetHeight() * resizeInfo.heightScale);
 		rt.depth = 1;
 	}
-	return rt;
 }
 
 

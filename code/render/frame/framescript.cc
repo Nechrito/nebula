@@ -349,6 +349,7 @@ FrameScript::OnWindowResized()
 		WindowMakeCurrent(this->window);
 
 		IndexT i;
+        for (i = 0; i < this->depthStencilTextures.Size(); i++) RenderTextureWindowResized(this->depthStencilTextures[i]);
 		for (i = 0; i < this->colorTextures.Size(); i++)		RenderTextureWindowResized(this->colorTextures[i]);
 		for (i = 0; i < this->readWriteTextures.Size(); i++)	ShaderRWTextureWindowResized(this->readWriteTextures[i]);
 		for (i = 0; i < this->algorithms.Size(); i++)			this->algorithms[i]->Resize();

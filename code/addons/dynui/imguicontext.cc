@@ -199,6 +199,7 @@ ImguiContext::Create()
 {
     __bundle.OnRenderAsPlugin = ImguiContext::OnRenderAsPlugin;
     __bundle.OnBeforeFrame = ImguiContext::OnBeforeFrame;
+    __bundle.OnWindowResized = ImguiContext::OnWindowResized;
     Graphics::GraphicsServer::Instance()->RegisterGraphicsContext(&__bundle, &__state);
 
 	// allocate imgui shader

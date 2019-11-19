@@ -42,6 +42,7 @@ struct ShaderRWTextureInfo
 	CoreGraphics::WindowId window;
 	bool isWindow : 1;
 	bool relativeSize : 1;
+    bool registerBindless : 1; // true if texture should be accessible in other than compute shaders
 };
 
 struct ShaderRWTextureResizeInfo
@@ -64,6 +65,8 @@ void ShaderRWTextureClear(const ShaderRWTextureId id, const Math::float4& color)
 
 /// helper function to setup RenderTextureInfo, already implemented
 ShaderRWTextureInfo ShaderRWTextureInfoSetupHelper(const ShaderRWTextureCreateInfo& info);
+/// helper function to setup shader rw textures info for resizing
+void ShaderRWTextureInfoResizeHelper(ShaderRWTextureInfo& rwInfo, const ShaderRWTextureResizeInfo& info);
 
 /// get size
 const TextureDimensions ShaderRWTextureGetDimensions(const ShaderRWTextureId id);

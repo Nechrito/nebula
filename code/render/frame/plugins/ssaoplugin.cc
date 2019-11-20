@@ -326,4 +326,17 @@ SSAOPlugin::Discard()
 	
 }
 
-} // namespace Algorithms
+//------------------------------------------------------------------------------
+/**
+*/
+void
+SSAOPlugin::Resize()
+{
+    FramePlugin::Resize();
+    for (auto target : this->internalTargets)
+    {
+        ShaderRWTextureWindowResized(target);
+    }
+}
+
+} // namespace Frame

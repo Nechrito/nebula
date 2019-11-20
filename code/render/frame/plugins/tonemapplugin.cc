@@ -179,4 +179,15 @@ TonemapPlugin::Discard()
 	this->fsq.Discard();
 }
 
-} // namespace Algorithms
+//------------------------------------------------------------------------------
+/**
+*/
+void
+TonemapPlugin::Resize()
+{
+    FramePlugin::Resize();
+    RenderTextureWindowResized(this->downsample2x2);
+    RenderTextureWindowResized(this->copy);
+}
+
+} // namespace Frame

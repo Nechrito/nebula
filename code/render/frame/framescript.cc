@@ -146,12 +146,17 @@ FrameScript::Run(const IndexT frameIndex)
 void
 FrameScript::Build()
 {
-	// go through and discard all compiled (dunno if needed)
 	IndexT i;
-	for (i = 0; i < this->compiled.Size(); i++)
-	{
-		this->compiled[i]->Discard();
-	}
+    
+	// go through and discard all compiled (dunno if needed)
+    if (!this->compiled.IsEmpty())
+    {
+	    for (i = 0; i < this->compiled.Size(); i++)
+	    {
+		    this->compiled[i]->Discard();
+	    }
+        this->compiled.Clear();
+    }
 
 	for (i = 0; i < this->resourceResetBarriers.Size(); i++)
 		DestroyBarrier(this->resourceResetBarriers[i]);
@@ -354,6 +359,8 @@ FrameScript::OnWindowResized()
 		for (i = 0; i < this->readWriteTextures.Size(); i++)	ShaderRWTextureWindowResized(this->readWriteTextures[i]);
 		for (i = 0; i < this->algorithms.Size(); i++)			this->algorithms[i]->Resize();
 		for (i = 0; i < this->ops.Size(); i++)					this->ops[i]->OnWindowResized();
+
+        Build();
 
 		// reset old window
 		WindowMakeCurrent(prev);

@@ -165,4 +165,17 @@ BloomPlugin::Discard()
 	this->fsq.Discard();
 }
 
-} // namespace Algorithm
+//------------------------------------------------------------------------------
+/**
+*/
+void
+BloomPlugin::Resize()
+{
+    FramePlugin::Resize();
+    for (auto target : this->internalTargets)
+    {
+        ShaderRWTextureWindowResized(target);
+    }
+}
+
+} // namespace Frame

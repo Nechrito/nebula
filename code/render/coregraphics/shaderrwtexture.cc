@@ -26,7 +26,7 @@ ShaderRWTextureInfoSetupHelper(const ShaderRWTextureCreateInfo& info)
 		rt.depth = 1;
 		rt.type = CoreGraphics::Texture2D;
 		rt.format = mode.GetPixelFormat();
-		rt.layers = 1;
+		rt.layers = info.layers;
 		rt.mips = 1;
 		rt.relativeSize = true;
 		rt.widthScale = rt.heightScale = rt.depthScale = 1.0f;
@@ -42,7 +42,7 @@ ShaderRWTextureInfoSetupHelper(const ShaderRWTextureCreateInfo& info)
 		rt.name = info.name;
 		rt.relativeSize = info.relativeSize;
 		rt.mips = 1;
-		rt.layers = info.type == CoreGraphics::TextureCubeArray ? 6 : 1;
+		rt.layers = info.type == CoreGraphics::TextureCubeArray ? 6 : info.layers;
 		rt.width = (SizeT)info.width;
 		rt.height = (SizeT)info.height;
 		rt.depth = (SizeT)info.depth;

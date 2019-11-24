@@ -337,6 +337,36 @@ SSAOPlugin::Resize()
     {
         ShaderRWTextureWindowResized(target);
     }
+
+    IndexT i;
+    for (i = 0; i < this->hbaoTable.Size(); i++)
+    {
+        DestroyResourceTable(this->hbaoTable[i]);
+        DestroyResourceTable(this->blurTableX[i]);
+        DestroyResourceTable(this->blurTableY[i]);
+    }
+
+    SizeT numBuffers = CoreGraphics::GetNumBufferedFrames();
+
+    for (i = 0; i < numBuffers; i++)
+    {
+        this->hbaoTable[i] = ShaderCreateResourceTable(this->hbaoShader, NEBULA_BATCH_GROUP);
+        this->blurTableX[i] = ShaderCreateResourceTable(this->blurShader, NEBULA_BATCH_GROUP);
+        this->blurTableY[i] = ShaderCreateResourceTable(this->blurShader, NEBULA_BATCH_GROUP);
+
+        // setup hbao table
+        ResourceTableSetShaderRWTexture(this->hbaoTable[i], { this->internalTargets[0], this->hbao0, 0, CoreGraphics::SamplerId::Invalid() });
+        ResourceTableSetShaderRWTexture(this->hbaoTable[i], { this->internalTargets[1], this->hbao1, 0, CoreGraphics::SamplerId::Invalid() });
+        ResourceTableCommitChanges(this->hbaoTable[i]);
+
+        // setup blur table
+        ResourceTableSetTexture(this->blurTableX[i], { this->internalTargets[1], this->hbaoX, 0, CoreGraphics::SamplerId::Invalid() });
+        ResourceTableSetShaderRWTexture(this->blurTableX[i], { this->internalTargets[0], this->hbaoBlurRG, 0, CoreGraphics::SamplerId::Invalid() });
+        ResourceTableSetTexture(this->blurTableY[i], { this->internalTargets[0], this->hbaoY, 0, CoreGraphics::SamplerId::Invalid() });
+        ResourceTableSetShaderRWTexture(this->blurTableY[i], { this->readWriteTextures[0], this->hbaoBlurR, 0, CoreGraphics::SamplerId::Invalid() });
+        ResourceTableCommitChanges(this->blurTableX[i]);
+        ResourceTableCommitChanges(this->blurTableY[i]);
+    }
 }
 
 } // namespace Frame

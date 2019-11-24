@@ -99,6 +99,9 @@ private:
 	static void UpdateSpotShadows();
 	/// update pointligt shadows
 	static void UpdatePointShadows();
+    
+    /// called when windows is resized
+    static void OnWindowResized(IndexT windowId, SizeT width, SizeT height);
 
 	enum
 	{

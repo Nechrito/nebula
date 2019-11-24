@@ -186,8 +186,17 @@ void
 TonemapPlugin::Resize()
 {
     FramePlugin::Resize();
+    
     RenderTextureWindowResized(this->downsample2x2);
     RenderTextureWindowResized(this->copy);
+
+    DestroyResourceTable(this->tonemapTable);
+
+    this->tonemapTable = ShaderCreateResourceTable(this->shader, NEBULA_BATCH_GROUP);
+	ResourceTableSetConstantBuffer(this->tonemapTable, { this->constants, this->constantsSlot, 0, false, false, -1, 0});
+	ResourceTableSetTexture(this->tonemapTable, { this->copy, this->prevSlot, 0, SamplerId::Invalid(), false });
+	ResourceTableSetTexture(this->tonemapTable, { this->downsample2x2, this->colorSlot, 0, SamplerId::Invalid(), false });
+	ResourceTableCommitChanges(this->tonemapTable);
 }
 
 } // namespace Frame

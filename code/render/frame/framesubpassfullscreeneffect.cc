@@ -63,7 +63,6 @@ void
 FrameSubpassFullscreenEffect::OnWindowResized()
 {
     FrameOp::OnWindowResized();
-    RenderTextureWindowResized(this->tex);
 }
 
 //------------------------------------------------------------------------------

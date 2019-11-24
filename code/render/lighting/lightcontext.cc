@@ -1042,6 +1042,25 @@ LightContext::UpdatePointShadows()
 //------------------------------------------------------------------------------
 /**
 */
+void
+LightContext::OnWindowResized(IndexT windowId, SizeT width, SizeT height)
+{
+    CoreGraphics::DestroyResourceTable(lightServerState.csmBlurXTable);
+    CoreGraphics::DestroyResourceTable(lightServerState.csmBlurYTable);
+
+    lightServerState.csmBlurXTable = ShaderCreateResourceTable(lightServerState.csmBlurShader, NEBULA_BATCH_GROUP);
+    lightServerState.csmBlurYTable = ShaderCreateResourceTable(lightServerState.csmBlurShader, NEBULA_BATCH_GROUP);
+    ResourceTableSetTexture(lightServerState.csmBlurXTable, { lightServerState.globalLightShadowMap, lightServerState.csmBlurXInputSlot, 0, CoreGraphics::SamplerId::Invalid(), false }); // ping
+    ResourceTableSetShaderRWTexture(lightServerState.csmBlurXTable, { lightServerState.globalLightShadowMapBlurred0, lightServerState.csmBlurXOutputSlot, 0, CoreGraphics::SamplerId::Invalid() }); // pong
+    ResourceTableSetTexture(lightServerState.csmBlurYTable, { lightServerState.globalLightShadowMapBlurred0, lightServerState.csmBlurYInputSlot, 0, CoreGraphics::SamplerId::Invalid() }); // ping
+    ResourceTableSetShaderRWTexture(lightServerState.csmBlurYTable, { lightServerState.globalLightShadowMapBlurred1, lightServerState.csmBlurYOutputSlot, 0, CoreGraphics::SamplerId::Invalid() }); // pong
+    ResourceTableCommitChanges(lightServerState.csmBlurXTable);
+    ResourceTableCommitChanges(lightServerState.csmBlurYTable);
+}
+
+//------------------------------------------------------------------------------
+/**
+*/
 Graphics::ContextEntityId
 LightContext::Alloc()
 {

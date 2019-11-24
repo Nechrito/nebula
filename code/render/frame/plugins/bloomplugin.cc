@@ -176,6 +176,23 @@ BloomPlugin::Resize()
     {
         ShaderRWTextureWindowResized(target);
     }
+
+    DestroyResourceTable(this->brightPassTable);
+    DestroyResourceTable(this->blurTable);
+
+    this->brightPassTable = ShaderCreateResourceTable(this->brightPassShader, NEBULA_BATCH_GROUP);
+    this->blurTable = ShaderCreateResourceTable(this->blurShader, NEBULA_BATCH_GROUP);
+
+    ResourceTableSetTexture(this->brightPassTable, { this->renderTextures[0], this->colorSourceSlot, 0, CoreGraphics::SamplerId::Invalid() , false });
+    ResourceTableSetTexture(this->brightPassTable, { this->renderTextures[1], this->luminanceTextureSlot, 0, CoreGraphics::SamplerId::Invalid() , false });
+    ResourceTableCommitChanges(this->brightPassTable);
+
+    ResourceTableSetTexture(this->blurTable, { this->renderTextures[2], this->inputImageXSlot, 0, CoreGraphics::SamplerId::Invalid() , false });
+    ResourceTableSetTexture(this->blurTable, { this->internalTargets[0], this->inputImageYSlot, 0, CoreGraphics::SamplerId::Invalid() });
+    ResourceTableSetShaderRWTexture(this->blurTable, { this->internalTargets[0], this->blurImageXSlot, 0, CoreGraphics::SamplerId::Invalid() });
+    ResourceTableSetShaderRWTexture(this->blurTable, { this->readWriteTextures[0], this->blurImageYSlot, 0, CoreGraphics::SamplerId::Invalid() });
+    ResourceTableCommitChanges(this->blurTable);
+
 }
 
 } // namespace Frame
